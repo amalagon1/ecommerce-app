@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -24,4 +24,12 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* hero-img {
+  background: url('../public/fashion-2208045_1280.jpg');
+} */
+
+.overlay {
+  background-color: linear-gradient(180deg,rgba(0,0,0,.7) 10%,transparent);
 }
