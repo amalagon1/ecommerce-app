@@ -1,49 +1,63 @@
+
 import React from 'react'
 import Image from 'next/image'
 import { useProductContext } from '../context/ProductContext'
+import { AiFillEye } from 'react-icons/ai'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
 
-const ProductCard = ({ title, image, price }) => {
-    const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-    const stripePromise = loadStripe(publishableKey);
+const ProductCard = ({ title, image, price, category }) => {
+    // const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+    // const stripePromise = loadStripe(publishableKey);
 
-    const createCheckOutSession = async () => {
-        const stripe = await stripePromise;
-        const checkoutSession = await axios.post('/api/create-stripe-session', {
-            item: item,
-        });
-        const result = await stripe.redirectToCheckout({
-            sessionId: checkoutSession.data.id,
-        });
-        if (result.error) {
-            alert(result.error.message);
-        }
-    };
+    // const createCheckOutSession = async () => {
+    //     const stripe = await stripePromise;
+    //     const checkoutSession = await axios.post('/api/create-stripe-session', {
+    //         item: item,
+    //     });
+    //     const result = await stripe.redirectToCheckout({
+    //         sessionId: checkoutSession.data.id,
+    //     });
+    //     if (result.error) {
+    //         alert(result.error.message);
+    //     }
+    // };
 
     const { products } = useProductContext()
     return (
-        <div className=" border-solid border-2 border-black-900 col-span-6 md:col-span-4 lg:col-span-3 h-80 w-full bg-gray-100 relative">
-            {/* <p>Hi I'm bob!</p> */}
-            <div className='w-full flex justify-center mb-4'>
-                <Image
-                    // layout='fill'
-                    width="70"
-                    height="70"
-                    src={image}
-                    alt='product photo'
-                />
+        <div>
+            <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
+                <div className='w-full h-full flex justify-center items-center'>
+                    <div className="w-[200px] mx-auto flex justify-center items-center group-hover:scale-110 transition duration-300">
+                        <Image
+                            // layout='fill'
+                            width="100"
+                            height="100"
+                            src={image}
+                            alt='product photo'
+                        />
+                    </div>
+
+
+                </div>
+                <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
+                    <button>+</button>
+                    <button><AiFillEye /></button>
+                </div>
+
 
             </div>
-            <div className='bg-red-500'>
+            <div>
+                <div className="text-sm capitalize text-gray-500 mb-1">{category}</div>
                 <p>{title}</p>
                 <p>${price}</p>
-                <p>Add to cart</p>
-                <button className="bg-green-700 p-1 rounded pointer"
+                {/* <button className="bg-green-700 p-1 rounded pointer"
                     onClick={createCheckOutSession}>
                     Purchase
-                </button>
+                </button> */}
             </div>
+            {/* <p>Hi I'm bob!</p> */}
+
 
         </div>
     )
