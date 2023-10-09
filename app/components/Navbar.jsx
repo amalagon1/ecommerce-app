@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { UserAuth } from '../context/AuthContext';
+import { RiShoppingCartLine } from 'react-icons/ri'
 
 
 const Navbar = () => {
@@ -57,9 +58,13 @@ const Navbar = () => {
                     Sign up
                 </li>
             </ul>) : (
-                <div>
-                    <p>welcome, {user.displayName.split('')[0]}</p>
-                    <p className="cursor-pointer" onClick={handleSignOut}>Log Out</p>
+                <div className='flex gap-5 items-center'>
+                    <div className="text-xl cursor-pointer"> <RiShoppingCartLine /></div>
+                    <div>
+                        <p>welcome, {user.displayName.split('')[0]}</p>
+                    </div>
+                    <div><button className="cursor-pointer bg-rose-400 p-1.5 rounded" onClick={handleSignOut}>Log Out</button></div>
+
                 </div>
             )}
 

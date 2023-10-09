@@ -2,7 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { useProductContext } from '../context/ProductContext'
-import { AiFillEye } from 'react-icons/ai'
+import { BsFillEyeFill } from 'react-icons/bs'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
 
@@ -40,9 +40,9 @@ const ProductCard = ({ title, image, price, category }) => {
 
 
                 </div>
-                <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
-                    <button>+</button>
-                    <button><AiFillEye /></button>
+                <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center gap-2 items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
+                    <button className="bg-rose-400 text-white text-xl h-11 w-11 ">+</button>
+                    <a className='shadow-md p-2 w-11 h-11 cursor-pointer flex justify-center items-center'><BsFillEyeFill /></a>
                 </div>
 
 
