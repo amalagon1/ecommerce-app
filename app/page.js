@@ -2,11 +2,14 @@
 import axios from 'axios'
 import Banner from './components/Banner'
 import { useProductContext } from './context/ProductContext';
+import { useCartContext } from './context/CartContext';
 import ProductCard from './components/ProductCard';
 
 export default function Home() {
 
   const { products } = useProductContext();
+  // const { cart } = useCartContext()
+
   // const getProducts = () => {
   //   fetch('https://api.storerestapi.com/products')
   //     .then(response => response.json())

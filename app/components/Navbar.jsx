@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { UserAuth } from '../context/AuthContext';
-import { RiShoppingCartLine } from 'react-icons/ri'
+import { RiShoppingCartLine } from 'react-icons/ri';
+import { useCartContext } from '../context/CartContext';
 
 
 const Navbar = () => {
@@ -59,7 +60,15 @@ const Navbar = () => {
                 </li>
             </ul>) : (
                 <div className='flex gap-5 items-center'>
-                    <div className="text-xl cursor-pointer"> <RiShoppingCartLine /></div>
+                    {/* <Link href="/Cart">
+                        <div className="text-xl cursor-pointer relative">
+                            <RiShoppingCartLine />
+                            <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
+                                <p className="text-sm">0</p>
+                            </div>
+                        </div>
+                    </Link> */}
+
                     <div>
                         <p>welcome, {user.displayName.split('')[0]}</p>
                     </div>

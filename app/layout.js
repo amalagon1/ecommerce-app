@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import Navbar from './components/Navbar'
 import { AuthContextProvider } from './context/AuthContext'
 import { ProductProvider } from './context/ProductContext'
+import { CartProvider } from './context/CartContext'
 import Page from './page'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,10 +19,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthContextProvider>
-          <ProductProvider>
-            <Navbar />
-            {children}
-          </ProductProvider>
+          <CartProvider>
+            <ProductProvider>
+              <Navbar />
+              {children}
+            </ProductProvider>
+          </CartProvider>
         </AuthContextProvider>
 
       </body>

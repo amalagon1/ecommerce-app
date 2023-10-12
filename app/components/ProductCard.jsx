@@ -1,7 +1,9 @@
 
 import React from 'react'
 import Image from 'next/image'
+import { useCart } from '../context/CartContext'
 import { useProductContext } from '../context/ProductContext'
+import { useCartContext } from '../context/CartContext'
 import { BsFillEyeFill } from 'react-icons/bs'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
@@ -23,7 +25,13 @@ const ProductCard = ({ title, image, price, category }) => {
     //     }
     // };
 
-    const { products } = useProductContext()
+    // const { cart } = useCartContext()
+    const { state, dispatch } = useCart();
+    const { products } = useProductContext();
+
+    const addToCart = (product) => {
+        dispatch({ type: 'ADD_TO_CART', payload: product });
+    }
     return (
         <div>
             <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
@@ -41,7 +49,8 @@ const ProductCard = ({ title, image, price, category }) => {
 
                 </div>
                 <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center gap-2 items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
-                    <button className="bg-rose-400 text-white text-xl h-11 w-11 ">+</button>
+                    <button className="bg-rose-400 text-white text-xl h-11 w-11 "
+                        onClick={() => addToCart(title, image, price, category)}>+</button>
                     <a className='shadow-md p-2 w-11 h-11 cursor-pointer flex justify-center items-center'><BsFillEyeFill /></a>
                 </div>
 
