@@ -60,14 +60,17 @@ const Navbar = () => {
                 </li>
             </ul>) : (
                 <div className='flex gap-5 items-center'>
-                    {/* <Link href="/Cart">
+                    <Link href="/cart">
+
                         <div className="text-xl cursor-pointer relative">
                             <RiShoppingCartLine />
                             <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
                                 <p className="text-sm">0</p>
                             </div>
                         </div>
-                    </Link> */}
+
+
+                    </Link>
 
                     <div>
                         <p>welcome, {user.displayName.split('')[0]}</p>
