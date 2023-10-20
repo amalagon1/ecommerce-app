@@ -1,15 +1,25 @@
 
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { UserAuth } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
+import { CartProvider } from '../context/CartContext';
 import { RiShoppingCartLine } from 'react-icons/ri';
-import { useCartContext } from '../context/CartContext';
+import Cart from '../cart/page';
 
 
 const Navbar = () => {
     const { user, googleSignIn, logOut } = UserAuth()
     const [loading, setLoading] = useState(true);
+
+    const { clickHandler } = useContext(CartContext);
+    const { state } = useContext(CartContext);
+
+
+    // const itemCount = state.cart.reduce((count, item) => count + item.quantity, 0);
+
+
 
     const handleSignIn = async () => {
         try {
@@ -60,17 +70,18 @@ const Navbar = () => {
                 </li>
             </ul>) : (
                 <div className='flex gap-5 items-center'>
-                    <Link href="/cart">
+                    <button onClick={clickHandler}>
+                        <Link href="/cart">
 
-                        <div className="text-xl cursor-pointer relative">
-                            <RiShoppingCartLine />
-                            <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
-                                <p className="text-sm">0</p>
+                            <div className="text-xl cursor-pointer relative">
+                                <RiShoppingCartLine />
+                                <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
+                                    <p className="text-sm">{state.cart.length}</p>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
 
-
-                    </Link>
+                    </button>
 
                     <div>
                         <p>welcome, {user.displayName.split('')[0]}</p>

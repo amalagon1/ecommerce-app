@@ -1,4 +1,4 @@
-// "use client";
+
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Navbar from './components/Navbar'
@@ -8,6 +8,8 @@ import { CartProvider } from './context/CartContext'
 import Page from './page'
 
 const inter = Inter({ subsets: ['latin'] })
+
+// const [clicked, setClicked] = useState(false)
 
 export const metadata = {
   title: 'Create Next App',

@@ -8,6 +8,7 @@ const cartReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_TO_CART':
             return { ...state, cart: [...state.cart, action.payload] };
+
         case 'REMOVE_FROM_CART':
             return {
                 ...state,
@@ -22,8 +23,40 @@ const cartReducer = (state, action) => {
 const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, { cart: [] });
 
+    //function for changing state on button click 
+    let cartActive = false;
+
+    //Get total quantity
+    const totalQuantity = state.cart.reduce((total, item) => total + item.quantity, 0);
+
+    // Create a function to get the quantity of a specific item
+
+    const itemQuantity = (state, itemPrice) => {
+        let quantity = 0;
+
+        for (const item of state) {
+            if (item.price === itemPrice) {
+                quantity++;
+            }
+        }
+    }
+
+    // const itemQuantity = (price) => {
+    //     state.cart.filter((cartItem) => cartItem.price === price).length;
+
+    // }
+
+    const clickHandler = () => {
+        cartActive = !cartActive;
+        console.log("clicked!")
+        console.log(cartActive)
+    };
+
+    //function for displaying counter on cart logo
+
+
     return (
-        <CartContext.Provider value={{ state, dispatch }}>
+        <CartContext.Provider value={{ state, dispatch, cartActive, clickHandler, totalQuantity, itemQuantity }}>
             {children}
         </CartContext.Provider>
     )
@@ -38,4 +71,4 @@ const useCart = () => {
     return context;
 };
 
-export { CartProvider, useCart };
+export { CartProvider, useCart, CartContext };

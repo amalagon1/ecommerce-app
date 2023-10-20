@@ -8,7 +8,7 @@ import { BsFillEyeFill } from 'react-icons/bs'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
 
-const ProductCard = ({ title, image, price, category }) => {
+const ProductCard = ({ title, image, price, category, id }) => {
     // const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
     // const stripePromise = loadStripe(publishableKey);
 
@@ -29,8 +29,8 @@ const ProductCard = ({ title, image, price, category }) => {
     const { state, dispatch } = useCart();
     const { products } = useProductContext();
 
-    const addToCart = (product) => {
-        dispatch({ type: 'ADD_TO_CART', payload: product });
+    const addToCart = (title, image, price, category, id) => {
+        dispatch({ type: 'ADD_TO_CART', payload: title, image, price, category, id });
     }
     return (
         <div>
@@ -50,7 +50,7 @@ const ProductCard = ({ title, image, price, category }) => {
                 </div>
                 <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center gap-2 items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
                     <button className="bg-rose-400 text-white text-xl h-11 w-11 "
-                        onClick={() => addToCart(title, image, price, category)}>+</button>
+                        onClick={() => addToCart({ title, image, price, category, id })}>+</button>
                     <a className='shadow-md p-2 w-11 h-11 cursor-pointer flex justify-center items-center'><BsFillEyeFill /></a>
                 </div>
 
