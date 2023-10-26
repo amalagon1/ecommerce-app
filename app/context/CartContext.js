@@ -22,6 +22,7 @@ const cartReducer = (state, action) => {
 //Create CartProvider component
 const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, { cart: [] });
+    console.log(state)
 
     //function for changing state on button click 
     let cartActive = false;
@@ -31,20 +32,42 @@ const CartProvider = ({ children }) => {
 
     // Create a function to get the quantity of a specific item
 
-    const itemQuantity = (state, itemPrice) => {
-        let quantity = 0;
+    // const itemQuantity = (state, id) => {
+    //     let quantity = 0;
 
-        for (const item of state) {
-            if (item.price === itemPrice) {
-                quantity++;
-            }
-        }
-    }
+    //     for (const item of state) {
+    //         if (item.price === itemPrice) {
+    //             quantity++;
+    //         }
+    //     }
+    // }
 
     // const itemQuantity = (price) => {
     //     state.cart.filter((cartItem) => cartItem.price === price).length;
 
     // }
+
+    // This function takes the cart state as an argument and calculates the quantity of each item in the cart.
+    function calculateItemQuantities(cart) {
+        const itemQuantities = {};
+
+        // Loop through the items in the cart
+        for (const item of cart) {
+            if (item.id in itemQuantities) {
+                // If the item is already in the quantities object, increment its count
+                itemQuantities[item.id] += 1;
+            } else {
+                // If the item is not in the quantities object, initialize it with a count of 1
+                itemQuantities[item.id] = 1;
+            }
+        }
+
+        return itemQuantities;
+    }
+
+    const itemQuantity = () => {
+        return "Hello"
+    }
 
     const clickHandler = () => {
         cartActive = !cartActive;
@@ -56,7 +79,7 @@ const CartProvider = ({ children }) => {
 
 
     return (
-        <CartContext.Provider value={{ state, dispatch, cartActive, clickHandler, totalQuantity, itemQuantity }}>
+        <CartContext.Provider value={{ state, dispatch, cartActive, clickHandler, totalQuantity, calculateItemQuantities }}>
             {children}
         </CartContext.Provider>
     )

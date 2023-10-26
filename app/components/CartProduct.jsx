@@ -1,13 +1,16 @@
 import React from 'react'
-import { useCart, useContext, CartContext } from '../context/CartContext';
+import { useCart } from '../context/CartContext';
+
 
 const CartProduct = ({ product }) => {
 
     // const { itemQuantity } = useContext(CartContext);
-    const { state, itemQuantity } = useCart();
-    // const { cart } = state;
+    const { state } = useCart();
+    const { cart } = state;
 
-    console.log(itemQuantity(product.price))
+    const itemQuantities = useCart().calculateItemQuantities(cart)
+
+    // console.log(itemQuantity(product.price))
 
     return (
         <div>
@@ -17,7 +20,7 @@ const CartProduct = ({ product }) => {
                     src={product.image}></img>
                 <h1>{product.title}</h1>
                 <h1>{product.price}</h1>
-                <h1>Quantity: {itemQuantity(state, product.price)}</h1>
+                <h1>Quantity: {itemQuantities[product.id]}</h1>
                 <button onClick={() => removeFromCart(product)}>Remove</button>
             </li>
         </div >

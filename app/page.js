@@ -39,11 +39,8 @@ export default function Home() {
         <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
           {products && products.map((product) =>
             <ProductCard
-              key={product.id}
-              title={product.title}
-              image={product.image}
-              price={product.price}
-              category={product.category} />
+              id={product.id}
+              product={product} />
           )}
         </div >
       </main>

@@ -8,7 +8,7 @@ import { BsFillEyeFill } from 'react-icons/bs'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
 
-const ProductCard = ({ title, image, price, category, id }) => {
+const ProductCard = ({ product }) => {
     // const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
     // const stripePromise = loadStripe(publishableKey);
 
@@ -29,8 +29,22 @@ const ProductCard = ({ title, image, price, category, id }) => {
     const { state, dispatch } = useCart();
     const { products } = useProductContext();
 
-    const addToCart = (title, image, price, category, id) => {
-        dispatch({ type: 'ADD_TO_CART', payload: title, image, price, category, id });
+    // const addToCart = (title, id) => {
+    //     dispatch({ type: 'ADD_TO_CART', payload: product });
+    // }
+
+    const addToCart = (product) => {
+        const itemIndex = state.cart.findIndex((item) => item.id === product.id);
+        if (itemIndex !== -1) {
+            // Product already in the cart, update the quantity
+            const updatedCart = [...state.cart];
+            updatedCart[itemIndex].quantity += 1;
+            setState(updatedCart);
+        } else {
+            // Product not in the cart, add a new item
+            const newItem = { ...product, quantity: 1 };
+            setState([...state.cart, newItem]);
+        }
     }
     return (
         <div>
@@ -41,7 +55,7 @@ const ProductCard = ({ title, image, price, category, id }) => {
                             // layout='fill'
                             width="100"
                             height="100"
-                            src={image}
+                            src={product.image}
                             alt='product photo'
                         />
                     </div>
@@ -50,16 +64,16 @@ const ProductCard = ({ title, image, price, category, id }) => {
                 </div>
                 <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center gap-2 items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
                     <button className="bg-rose-400 text-white text-xl h-11 w-11 "
-                        onClick={() => addToCart({ title, image, price, category, id })}>+</button>
+                        onClick={() => addToCart({ product })}>+</button>
                     <a className='shadow-md p-2 w-11 h-11 cursor-pointer flex justify-center items-center'><BsFillEyeFill /></a>
                 </div>
 
 
             </div>
             <div>
-                <div className="text-sm capitalize text-gray-500 mb-1">{category}</div>
-                <p>{title}</p>
-                <p>${price}</p>
+                <div className="text-sm capitalize text-gray-500 mb-1">{product.category}</div>
+                <p>{product.title}</p>
+                <p>${product.price}</p>
                 {/* <button className="bg-green-700 p-1 rounded pointer"
                     onClick={createCheckOutSession}>
                     Purchase
