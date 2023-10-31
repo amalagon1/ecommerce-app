@@ -7,6 +7,7 @@ import { useCartContext } from '../context/CartContext'
 import { BsFillEyeFill } from 'react-icons/bs'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios';
+import { ActionCodeOperation } from 'firebase/auth'
 
 const ProductCard = ({ product }) => {
     // const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
@@ -27,25 +28,36 @@ const ProductCard = ({ product }) => {
 
     // const { cart } = useCartContext()
     const { state, dispatch } = useCart();
+    const { cart } = state;
     const { products } = useProductContext();
 
-    // const addToCart = (title, id) => {
-    //     dispatch({ type: 'ADD_TO_CART', payload: product });
+    const inCart = cart.find(item => item.product.id === product.id);
+
+    // console.log(inCart)
+
+    const remove = () => {
+        console.log('removed!')
+    }
+    const addToCart = (product) => {
+        dispatch({ type: 'ADD_TO_CART', payload: product })
+    }
+    // const addToCart = (product) => {
+    //     const updatedCart = [...cart];
+    //     const itemIndex = updatedCart.findIndex((item) => item.id === product.id);
+    //     console.log(product.id)
+
+    //     if (itemIndex !== -1) {
+    //         // Product already in the cart, update the quantity
+    //         updatedCart[itemIndex].quantity += 1;
+    //     } else {
+    //         // Product not in the cart, add a new item
+    //         updatedCart.push({ ...product, quantity: 1 });
+    //     }
+
+    //     // Update the shopping cart context with the updated cart
+    //     dispatch({ type: 'UPDATE_CART', payload: updatedCart });
     // }
 
-    const addToCart = (product) => {
-        const itemIndex = state.cart.findIndex((item) => item.id === product.id);
-        if (itemIndex !== -1) {
-            // Product already in the cart, update the quantity
-            const updatedCart = [...state.cart];
-            updatedCart[itemIndex].quantity += 1;
-            setState(updatedCart);
-        } else {
-            // Product not in the cart, add a new item
-            const newItem = { ...product, quantity: 1 };
-            setState([...state.cart, newItem]);
-        }
-    }
     return (
         <div>
             <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
@@ -63,8 +75,17 @@ const ProductCard = ({ product }) => {
 
                 </div>
                 <div className="absolute top-3 -right-40 group-hover:right-5 flex flex-col justify-center gap-2 items-center opacity-0 group-hover:opacity-100 transition-all duration-30">
-                    <button className="bg-rose-400 text-white text-xl h-11 w-11 "
-                        onClick={() => addToCart({ product })}>+</button>
+                    <button className={inCart ? "bg-blue-400 text-white text-xl h-11 w-11" : "bg-rose-400 text-white text-xl h-11 w-11 "}
+                        onClick={() => {
+                            if (inCart) {
+                                remove()
+
+                            } else {
+                                addToCart({ product });
+                            }
+                        }}>
+                        {inCart ? "-" : "+"}
+                    </button>
                     <a className='shadow-md p-2 w-11 h-11 cursor-pointer flex justify-center items-center'><BsFillEyeFill /></a>
                 </div>
 

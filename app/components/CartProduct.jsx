@@ -8,21 +8,32 @@ const CartProduct = ({ product }) => {
     const { state } = useCart();
     const { cart } = state;
 
-    const itemQuantities = useCart().calculateItemQuantities(cart)
+    // const itemQuantities = useCart().calculateItemQuantities(cart)
 
     // console.log(itemQuantity(product.price))
+    console.log(product.product.title)
 
     return (
-        <div>
-            <li key={product.id}>
-                <img
-                    className="h-16 w-16"
-                    src={product.image}></img>
-                <h1>{product.title}</h1>
-                <h1>{product.price}</h1>
-                <h1>Quantity: {itemQuantities[product.id]}</h1>
-                <button onClick={() => removeFromCart(product)}>Remove</button>
-            </li>
+        <div className="flex gap-3">
+
+            <img
+                className="h-16 w-16"
+                src={product.product.image}></img>
+            <div className="flex flex-col">
+                <h1>{product.product.title}</h1>
+                <div className="flex gap-2">
+                    <h1>{product.product.price}</h1>
+                    <div className='flex gap-2 border-solid-gray-950 border-2 px-1'>
+                        <div className="cursor-pointer">-</div>
+                        <div>{product.qty}</div>
+                        <div className="cursor-pointer">+</div>
+                    </div>
+                    {/* <h1>Quantity: {product.qty}</h1> */}
+                    <button onClick={() => removeFromCart(product)}>Remove</button>
+                </div>
+            </div>
+
+
         </div >
     )
 }

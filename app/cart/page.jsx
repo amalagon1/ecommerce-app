@@ -6,19 +6,19 @@ import Navbar from '../components/Navbar'
 
 const Cart = () => {
     const { state } = useCart();
-    const { cart } = state;
+    // const { cart } = state;
 
     // const { totalQuantity } = useCart();
     // console.log(totalQuantity)
 
-    console.log(cart)
+    console.log(state.cart)
     return (
         <div className="my-24">
             <h1>This is your shopping cart</h1>
             {/* <p>Total items: {totalQuantity}</p> */}
             <div className="container">
                 <ul className="flex flex-col gap-6 my-6">
-                    {cart.map((product) => (
+                    {state.cart.map((product) => (
                         <CartProduct
                             id={product.id}
                             product={product}

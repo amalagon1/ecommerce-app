@@ -7,7 +7,10 @@ const CartContext = createContext()
 const cartReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_TO_CART':
-            return { ...state, cart: [...state.cart, action.payload] };
+            return { ...state, cart: [...state.cart, { ...action.payload, qty: 1 }] };
+
+        // case 'UPDATE_CART':
+        //     return { ...state, cart: action.payload }
 
         case 'REMOVE_FROM_CART':
             return {
@@ -22,12 +25,12 @@ const cartReducer = (state, action) => {
 //Create CartProvider component
 const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, { cart: [] });
-    console.log(state)
+    console.log(state.cart)
 
     //function for changing state on button click 
     let cartActive = false;
 
-    //Get total quantity
+    // Get total quantity
     const totalQuantity = state.cart.reduce((total, item) => total + item.quantity, 0);
 
     // Create a function to get the quantity of a specific item
@@ -65,9 +68,9 @@ const CartProvider = ({ children }) => {
         return itemQuantities;
     }
 
-    const itemQuantity = () => {
-        return "Hello"
-    }
+    // const itemQuantity = () => {
+    //     return "Hello"
+    // }
 
     const clickHandler = () => {
         cartActive = !cartActive;
@@ -93,5 +96,9 @@ const useCart = () => {
     }
     return context;
 };
+
+export const CartState = () => {
+    return useContext(cart)
+}
 
 export { CartProvider, useCart, CartContext };
