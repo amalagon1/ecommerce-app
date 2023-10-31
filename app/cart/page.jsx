@@ -11,7 +11,7 @@ const Cart = () => {
     // const { totalQuantity } = useCart();
     // console.log(totalQuantity)
 
-    console.log(state.cart)
+    // console.log(state.cart)
     return (
         <div className="my-24">
             <h1>This is your shopping cart</h1>

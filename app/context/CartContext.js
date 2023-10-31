@@ -17,6 +17,20 @@ const cartReducer = (state, action) => {
                 ...state,
                 cart: state.cart.filter((item) => item.id !== action.payload.id),
             };
+
+        case 'INCREMENT_QTY':
+            const { id } = action.payload;
+            const updatedCart = state.cart.map((item) =>
+                item.product.id === id ? { ...item, qty: item.qty + 1 } : item
+            );
+            return { ...state, cart: updatedCart };
+
+        case 'DECREMENT_QTY':
+            const { itemId } = action.payload;
+            const updatedCartDecrement = state.cart.map((item) =>
+                item.product.id === itemId ? { ...item, qty: item.qty - 1 } : item
+            );
+            return { ...state, cart: updatedCartDecrement };
         default:
             return state;
     }
@@ -82,7 +96,14 @@ const CartProvider = ({ children }) => {
 
 
     return (
-        <CartContext.Provider value={{ state, dispatch, cartActive, clickHandler, totalQuantity, calculateItemQuantities }}>
+        <CartContext.Provider value={{
+            state,
+            dispatch,
+            cartActive,
+            clickHandler,
+            totalQuantity,
+            calculateItemQuantities
+        }}>
             {children}
         </CartContext.Provider>
     )
