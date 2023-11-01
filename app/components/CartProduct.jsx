@@ -18,21 +18,26 @@ const CartProduct = ({ product }) => {
     const incrementQuantity = () => {
         // Dispatch an action to increment the quantity of the item
         dispatch({ type: 'INCREMENT_QTY', payload: { id: product.product.id } });
+        calculateItemPrice()
     }
 
     const decrementQuantity = () => {
         dispatch({ type: 'DECREMENT_QTY', payload: { itemId: product.product.id } });
     }
 
+    const calculateItemPrice = () => {
+        dispatch({ type: 'CALCULATE_PRICE', payload: { priceId: product.product.id } })
+    }
+
     console.log(product.product.title)
 
     return (
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3 border-t-2 py-3">
 
             <img
                 className="h-16 w-16"
                 src={product.product.image}></img>
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center">
                 <h1>{product.product.title}</h1>
                 <div className="flex gap-4">
 
@@ -43,9 +48,10 @@ const CartProduct = ({ product }) => {
                         <div className="cursor-pointer"
                             onClick={incrementQuantity}>+</div>
                     </div>
-                    <h1>{product.product.price}</h1>
-                    {/* <h1>Quantity: {product.qty}</h1> */}
-                    <button onClick={() => removeFromCart(product)}>Remove</button>
+                    <p className="font-thin">$ {product.product.price}</p>
+                    <p>$ {product.totalPrice}</p>
+
+                    {/* <button onClick={() => removeFromCart(product)}>Remove</button> */}
                 </div>
             </div>
 

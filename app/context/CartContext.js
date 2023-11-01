@@ -6,8 +6,10 @@ const CartContext = createContext()
 //Create a reducer funtion to handle cart actions
 const cartReducer = (state, action) => {
     switch (action.type) {
+
         case 'ADD_TO_CART':
-            return { ...state, cart: [...state.cart, { ...action.payload, qty: 1 }] };
+            return { ...state, cart: [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }] };
+
 
         // case 'UPDATE_CART':
         //     return { ...state, cart: action.payload }
@@ -28,9 +30,21 @@ const cartReducer = (state, action) => {
         case 'DECREMENT_QTY':
             const { itemId } = action.payload;
             const updatedCartDecrement = state.cart.map((item) =>
+                //if qty=0, return null. else:
                 item.product.id === itemId ? { ...item, qty: item.qty - 1 } : item
             );
             return { ...state, cart: updatedCartDecrement };
+
+        case 'CALCULATE_PRICE':
+            const { priceId } = action.payload;
+            const updatedPrice = state.cart.map((item) =>
+                item.product.id === priceId ? {
+                    ...item, totalPrice: item.product.price * item.qty
+                } :
+                    item
+            );
+            return { ...state, cart: updatedPrice };
+
         default:
             return state;
     }
