@@ -57,9 +57,9 @@ const Navbar = () => {
                 <li className='p-2 cursor-pointer'>
                     <Link href='/'>Home</Link>
                 </li>
-                <li className='p-2 cursor-pointer'>
+                {/* <li className='p-2 cursor-pointer'>
                     <Link href='/profile'>Profile</Link>
-                </li>
+                </li> */}
             </ul>
             {loading ? null : !user ? (<ul className='flex'>
                 <li onClick={handleSignIn} className='p-2 cursor-pointer'>

@@ -16,8 +16,7 @@ const cartReducer = (state, action) => {
 
         case 'REMOVE_FROM_CART':
             return {
-                ...state,
-                cart: state.cart.filter((item) => item.id !== action.payload.id),
+                ...state, cart: state.cart.filter((item) => item.product.id !== action.payload.id),
             };
 
         case 'INCREMENT_QTY':
@@ -29,11 +28,27 @@ const cartReducer = (state, action) => {
 
         case 'DECREMENT_QTY':
             const { itemId } = action.payload;
-            const updatedCartDecrement = state.cart.map((item) =>
-                //if qty=0, return null. else:
-                item.product.id === itemId ? { ...item, qty: item.qty - 1 } : item
-            );
-            return { ...state, cart: updatedCartDecrement };
+            const updatedCartDecrement = state.cart.map((item) => {
+                if (item.product.id === itemId) {
+                    const updatedQuantity = item.qty - 1;
+                    if (updatedQuantity <= 0) {
+                        // If quantity reaches 0, remove the item
+                        return null;
+                    } else {
+                        return { ...item, qty: updatedQuantity };
+                    }
+                }
+                return item;
+            });
+            return { ...state, cart: updatedCartDecrement.filter(Boolean) };
+
+        // case 'DECREMENT_QTY':
+        //     const { itemId } = action.payload;
+        //     const updatedCartDecrement = state.cart.map((item) =>
+
+        //         item.product.id === itemId ? { ...item, qty: item.qty - 1 } : item
+        //     );
+        //     return { ...state, cart: updatedCartDecrement };
 
         case 'CALCULATE_PRICE':
             const { priceId } = action.payload;
@@ -49,10 +64,23 @@ const cartReducer = (state, action) => {
     }
 };
 
+const calculateGrandTotal = (cart) => {
+    let sum = 0
+    for (let i = 0; i < cart.length; i++) {
+        sum += cart[i].totalPrice
+    }
+    return sum.toFixed(2)
+}
+
 //Create CartProvider component
 const CartProvider = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, { cart: [] });
     console.log(state.cart)
+
+
+
+
+    const grandTotal = calculateGrandTotal(state.cart);
 
     //function for changing state on button click 
     let cartActive = false;
@@ -115,7 +143,8 @@ const CartProvider = ({ children }) => {
             cartActive,
             clickHandler,
             totalQuantity,
-            calculateItemQuantities
+            calculateItemQuantities,
+            grandTotal
         }}>
             {children}
         </CartContext.Provider>

@@ -35,8 +35,8 @@ const ProductCard = ({ product }) => {
 
     // console.log(inCart)
 
-    const remove = () => {
-        console.log('removed!')
+    const removeFromCart = () => {
+        dispatch({ type: 'REMOVE_FROM_CART', payload: product })
     }
     const addToCart = (product) => {
         dispatch({ type: 'ADD_TO_CART', payload: product })
@@ -78,7 +78,7 @@ const ProductCard = ({ product }) => {
                     <button className={inCart ? "bg-blue-400 text-white text-xl h-11 w-11" : "bg-rose-400 text-white text-xl h-11 w-11 "}
                         onClick={() => {
                             if (inCart) {
-                                remove()
+                                removeFromCart({ product })
 
                             } else {
                                 addToCart({ product });

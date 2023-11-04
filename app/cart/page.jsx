@@ -5,7 +5,7 @@ import CartProduct from '../components/CartProduct';
 import Navbar from '../components/Navbar'
 
 const Cart = () => {
-    const { state } = useCart();
+    const { state, grandTotal } = useCart();
     // const { cart } = state;
 
     // const { totalQuantity } = useCart();
@@ -13,15 +13,9 @@ const Cart = () => {
 
     // console.log(state.cart)
 
-    const grandTotal = () => {
-        let sum = 0
-        for (let i = 0; i < state.cart.length; i++) {
-            sum += state.cart[i].totalPrice
-        }
-        return sum.toFixed(2)
-    }
+
     return (
-        <div className="my-24">
+        <div className="my-24 m-6">
             <h1>This is your shopping cart</h1>
             {/* <p>Total items: {totalQuantity}</p> */}
             <div className="container">
@@ -41,7 +35,7 @@ const Cart = () => {
                         // </li>
                     ))}
                 </ul>
-                <h1 className="mb-6">Total: ${grandTotal()}</h1>
+                <h1 className="mb-6">Total: ${grandTotal}</h1>
                 <button className="cursor-pointer bg-black text-white py-2 px-6">
                     Check out
                 </button>
