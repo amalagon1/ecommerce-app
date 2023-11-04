@@ -23,6 +23,7 @@ const CartProduct = ({ product }) => {
 
     const decrementQuantity = () => {
         dispatch({ type: 'DECREMENT_QTY', payload: { itemId: product.product.id } });
+        calculateItemPrice()
     }
 
     const calculateItemPrice = () => {

@@ -44,7 +44,6 @@ const cartReducer = (state, action) => {
                     item
             );
             return { ...state, cart: updatedPrice };
-
         default:
             return state;
     }
