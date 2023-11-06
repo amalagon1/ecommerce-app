@@ -2,7 +2,12 @@
 import React from 'react';
 import { CartContext, useCart, useContext } from '../context/CartContext';
 import CartProduct from '../components/CartProduct';
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+
+const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+const stripePromise = loadStripe(publishableKey);
 
 const Cart = () => {
     const { state, grandTotal } = useCart();
@@ -11,7 +16,23 @@ const Cart = () => {
     // const { totalQuantity } = useCart();
     // console.log(totalQuantity)
 
-    // console.log(state.cart)
+
+
+    const createCheckOutSession = async () => {
+        const stripe = await stripePromise;
+        const checkoutSession = await axios.post('/api/create-stripe-session',
+            {
+                items: state.cart
+            });
+
+        //redirect user/customer to Stripe checkout
+        const result = await stripe.redirectToCheckout({
+            sessionId: checkoutSession.data.id,
+        });
+        if (result.error) alert(result.error.message);
+
+
+    };
 
 
     return (
@@ -25,18 +46,14 @@ const Cart = () => {
                             id={product.id}
                             product={product}
                         />
-                        // <li key={product.id}>
-                        //     <img
-                        //         className="h-16 w-16"
-                        //         src={product.image}></img>
-                        //     <h1>{product.title}</h1>
-                        //     <h1>{product.price}</h1>
-                        //     <button onClick={() => removeFromCart(product)}>Remove</button>
-                        // </li>
+
                     ))}
                 </ul>
                 <h1 className="mb-6">Total: ${grandTotal}</h1>
-                <button className="cursor-pointer bg-black text-white py-2 px-6">
+                <button
+                    className="cursor-pointer bg-black text-white py-2 px-6"
+                    role="link"
+                    onClick={createCheckOutSession}>
                     Check out
                 </button>
             </div>
