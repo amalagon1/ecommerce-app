@@ -1,0 +1,8 @@
+{
+  "/page": "/",
+  "/favicon.ico/route": "/favicon.ico",
+  "/cart/page": "/cart",
+  "/orders/page": "/orders",
+  "/profile/page": "/profile",
+  "/success/page": "/success"
+}

@@ -15,7 +15,7 @@ export default async (req, res) => {
         quantity: item.qty,
         price_data: {
             currency: 'usd',
-            unit_amount: item.totalPrice * 100,
+            unit_amount: item.product.price * 100,
             product_data: {
                 name: item.product.title,
                 images: [item.product.image]
@@ -28,7 +28,7 @@ export default async (req, res) => {
         line_items: transformedItems,
         mode: 'payment',
         success_url: `${process.env.HOST}/success`,
-        cancel_url: `${process.env.HOST}/checkout`,
+        cancel_url: `${process.env.HOST}/`,
         metadata: {
             images: JSON.stringify(items.map(item => item.image))
         }

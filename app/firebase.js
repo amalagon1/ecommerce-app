@@ -1,7 +1,10 @@
-import Firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 import { getAuth } from "firebase/auth";
+import { getFirestore } from 'firebase/firestore';
 import { initializeApp } from '@firebase/app';
+// import { firestore } from '@firebase/app'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAlEYqf5S5RQAxPQ_MibgLDGkShyUrI1KI",
@@ -13,10 +16,30 @@ const firebaseConfig = {
     measurementId: "G-KG7ZTDLBDD"
 };
 
+const saveOrderToFirestore = async (userId, orderDetails) => {
+    try {
+        const orderRef = await firestore.collection('orders').add({
+            userId,
+            createdAt: new Date(),
+            ...orderDetails,
+        });
+        console.log('Order saved with ID:', orderRef.id);
+        return orderRef.id; // Optionally, you can return the order ID
+    } catch (error) {
+        console.error('Error saving order:', error);
+        throw error; // Propagate the error for handling in the calling code
+    }
+};
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+const auth = getAuth(app);
 
 
-// Initialize Firebase Authentication and get a reference to the service
-export const auth = getAuth(app);
+// export const auth = getAuth(app);
+
+
+export { auth, firestore, saveOrderToFirestore }
+

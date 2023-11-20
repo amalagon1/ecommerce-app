@@ -52,23 +52,37 @@ const Navbar = () => {
 
     return (
 
-        <div className="p-2 w-full flex items-center justify-between fixed top-0 bg-transparent text-white z-20">
+        <div className="p-2 w-full flex items-center justify-between fixed top-0 bg-gray-500 text-white z-20">
             <ul className='flex'>
                 <li className='p-2 cursor-pointer'>
-                    <Link href='/'>Home</Link>
+                    <Link href='/'>Bargain Depot</Link>
                 </li>
                 {/* <li className='p-2 cursor-pointer'>
                     <Link href='/profile'>Profile</Link>
                 </li> */}
             </ul>
-            {loading ? null : !user ? (<ul className='flex'>
-                <li onClick={handleSignIn} className='p-2 cursor-pointer'>
+            {loading ? null : !user ? (<div className='flex gap-10 items-center'>
+
+                <button onClick={clickHandler}>
+                    <Link href="/cart">
+
+                        <div className="text-xl cursor-pointer relative">
+                            <RiShoppingCartLine />
+                            <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
+                                <p className="text-sm">{state.cart.length}</p>
+                            </div>
+                        </div>
+                    </Link>
+
+                </button>
+                <button
+                    className="cursor-pointer bg-rose-400 p-1.5 rounded"
+                    onClick={handleSignIn}>
                     Login
-                </li>
-                <li onClick={handleSignIn} className='p-2 cursor-pointer'>
-                    Sign up
-                </li>
-            </ul>) : (
+                </button>
+
+
+            </div>) : (
                 <div className='flex gap-5 items-center'>
                     <button onClick={clickHandler}>
                         <Link href="/cart">
