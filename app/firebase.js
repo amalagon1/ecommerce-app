@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
 import { initializeApp } from '@firebase/app';
-// import { firestore } from '@firebase/app'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAlEYqf5S5RQAxPQ_MibgLDGkShyUrI1KI",
@@ -31,6 +31,10 @@ const saveOrderToFirestore = async (userId, orderDetails) => {
     }
 };
 
+const newCollection = async () => {
+    firebase.firestore().collection("new-coll").add({ "Hello": "World" })
+}
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -41,5 +45,5 @@ const auth = getAuth(app);
 // export const auth = getAuth(app);
 
 
-export { auth, firestore, saveOrderToFirestore }
+export { auth, firestore, saveOrderToFirestore, newCollection }
 

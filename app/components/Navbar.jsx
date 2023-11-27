@@ -10,7 +10,7 @@ import Cart from '../cart/page';
 
 
 const Navbar = () => {
-    const { user, googleSignIn, logOut } = UserAuth()
+    const { user, googleSignIn, logOut, signInWithGoogle } = UserAuth()
     const [loading, setLoading] = useState(true);
 
     const { clickHandler } = useContext(CartContext);
@@ -76,8 +76,8 @@ const Navbar = () => {
 
                 </button>
                 <button
-                    className="cursor-pointer bg-rose-400 p-1.5 rounded"
-                    onClick={handleSignIn}>
+                    className="cursor-pointer bg-rose-400 px-4 py-1.5 rounded"
+                    onClick={signInWithGoogle}>
                     Login
                 </button>
 
