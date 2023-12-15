@@ -17,8 +17,8 @@ const Navbar = () => {
     const { state } = useContext(CartContext);
 
 
-    // const itemCount = state.cart.reduce((count, item) => count + item.quantity, 0);
 
+    // const itemCount = state.cart.reduce((count, item) => count + item.quantity, 0);
 
 
     const handleSignIn = async () => {

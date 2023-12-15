@@ -3,13 +3,16 @@ import React, { createContext, useState, useReducer, useContext } from 'react';
 
 const CartContext = createContext()
 
+
 //Create a reducer funtion to handle cart actions
 const cartReducer = (state, action) => {
     switch (action.type) {
 
         case 'ADD_TO_CART':
-            return { ...state, cart: [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }] };
-
+            // return { ...state, cart: [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }] };
+            const newCart = [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }];
+            let grandTotal = calculateGrandTotal(newCart);
+            return { ...state, cart: newCart, grandTotal };
 
         // case 'UPDATE_CART':
         //     return { ...state, cart: action.payload }
@@ -24,6 +27,7 @@ const cartReducer = (state, action) => {
             const updatedCart = state.cart.map((item) =>
                 item.product.id === id ? { ...item, qty: item.qty + 1 } : item
             );
+            // let incrementTotal = calculateGrandTotal(updatedCart);
             return { ...state, cart: updatedCart };
 
         case 'DECREMENT_QTY':
@@ -42,13 +46,13 @@ const cartReducer = (state, action) => {
             });
             return { ...state, cart: updatedCartDecrement.filter(Boolean) };
 
-        // case 'DECREMENT_QTY':
-        //     const { itemId } = action.payload;
-        //     const updatedCartDecrement = state.cart.map((item) =>
+        //make this function work for grand total
+        // case 'CALCULATE_GRAND_TOTAL':
+        //     const grandTotal = calculateGrandTotal(state.cart)
 
-        //         item.product.id === itemId ? { ...item, qty: item.qty - 1 } : item
-        //     );
-        //     return { ...state, cart: updatedCartDecrement };
+        //     return { ...state, grandTotal };
+
+
 
         case 'CALCULATE_PRICE':
             const { priceId } = action.payload;

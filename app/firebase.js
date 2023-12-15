@@ -35,6 +35,19 @@ const newCollection = async () => {
     firebase.firestore().collection("new-coll").add({ "Hello": "World" })
 }
 
+// const fetchOrders = async () => {
+//     try {
+//         const querySnapshot = await getDocs(collection(firestore, 'orders', user.uid));
+//         const ordersData = querySnapshot.docs.map((doc) => ({
+//             id: doc.id,
+//             ...doc.data(),
+//         }));
+//         setOrders(ordersData);
+//         console.log(ordersData)
+//     } catch (error) {
+//         console.error('Error fetching orders:', error);
+//     }
+// }
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -42,7 +55,7 @@ const firestore = getFirestore(app);
 const auth = getAuth(app);
 
 
-// export const auth = getAuth(app);
+
 
 
 export { auth, firestore, saveOrderToFirestore, newCollection }

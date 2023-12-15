@@ -31,11 +31,15 @@ const stripePromise = loadStripe(publishableKey);
 //         return false;
 //     }
 // }
+
+
 const Cart = () => {
     const { state, grandTotal } = useCart();
     const { user, googleSignIn, logOut, signInWithGoogle } = UserAuth()
 
-    console.log(user)
+    // console.log(user.uid)
+
+
 
     //demo state for firestore function
     const [name, setName] = useState("");
@@ -68,15 +72,14 @@ const Cart = () => {
     };
 
 
-    // const { cart } = state;
 
-    // const { totalQuantity } = useCart();
-    // console.log(totalQuantity)
-    // console.log(user.uid)
-    // let id = user.id
-    // let order = state.cart
+    const storeCart = () => {
+        let order = JSON.stringify(state.cart)
+        localStorage.setItem("order", order)
+    }
 
     const createCheckOutSession = async () => {
+
         const stripe = await stripePromise;
         const checkoutSession = await axios.post('/api/create-stripe-session',
             {
@@ -91,7 +94,7 @@ const Cart = () => {
         if (result.error) {
             alert(result.error.message)
         } else {
-            console.log('success')
+            alert('success')
         }
 
 
@@ -99,7 +102,9 @@ const Cart = () => {
     };
 
     const handleClick = () => {
+        storeCart()
         createCheckOutSession();
+
     }
 
     return (

@@ -1,8 +1,83 @@
-import React from 'react'
+'use client'
+import { useEffect } from 'react'
 import { BsCheckCircleFill } from 'react-icons/bs'
+import { UserAuth } from '../context/AuthContext';
+import { firestore } from '../firebase';
+import { CartContext, useCart, useContext } from '../context/CartContext';
+import { collection, addDoc, doc, updateDoc, arrayUnion, serverTimestamp } from '@firebase/firestore';
+import Link from 'next/link';
+import { signOut, onAuthStateChanged } from "firebase/auth"
+import { auth } from "../firebase";
+import { get } from 'mongoose';
 
 
 const page = () => {
+    const { state, grandTotal } = useCart();
+    const { user, setUser, googleSignIn, logOut, signInWithGoogle } = UserAuth()
+
+    console.log(user)
+
+
+    // useEffect(() => {
+    //     const storedOrder = localStorage.getItem('order');
+    //     if (storedOrder) {
+    //         const orderData = JSON.parse(storedOrder);
+    //         sendToFirestore(orderData, user)
+    //         let ID = user?.uid
+    //         console.log(ID)
+    //     } else {
+    //         console.error('No order data found!')
+    //     }
+    // }, []);
+
+    const getOrder = () => {
+        const storedOrder = localStorage.getItem('order');
+        if (storedOrder) {
+            const orderData = JSON.parse(storedOrder);
+            sendToFirestore(orderData, user)
+            let ID = user?.uid
+            console.log(ID)
+        } else {
+            console.error('No order data found!')
+        }
+    }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser)
+        })
+        console.log('User object:', user);
+        getOrder()
+        // console.log('User ID:', user?.uid);
+        return () => unsubscribe()
+
+
+    }, [user])
+
+
+    const sendToFirestore = async (orderData, user) => {
+        try {
+            const userDocRef = doc(firestore, 'users', user.uid);
+
+            // Update the "orders" field in the user's document
+            await updateDoc(userDocRef, {
+                orders: arrayUnion(
+                    {
+                        ...orderData,
+                        // {
+
+                        //     timestamp: serverTimestamp(),
+                        // },
+                    }
+                ),
+            });
+
+            console.log('Order placed successfully!');
+        } catch (error) {
+            console.error('Error placing order:', error.message);
+        }
+    };
+
     return (
         <div className="bg-gray-100 h-screen">
             <main className="max-w-screen-lg mx-auto my-14">
@@ -14,7 +89,11 @@ const page = () => {
                         </h1>
                     </div>
                     <p>Thank you for shopping with us. We'll send a confirmation once the item has been shipped. If you would like to check the status of your order(s) please click the link below.</p>
-                    <button className="mt-8">Got to my orders</button>
+                    <Link href="/orderHistory">
+                        <button className="mt-8">Got to my orders</button>
+                    </Link>
+
+
                 </div>
 
             </main>
