@@ -4,7 +4,7 @@ import { BsCheckCircleFill } from 'react-icons/bs'
 import { UserAuth } from '../context/AuthContext';
 import { firestore } from '../firebase';
 import { CartContext, useCart, useContext } from '../context/CartContext';
-import { collection, addDoc, doc, updateDoc, arrayUnion, serverTimestamp } from '@firebase/firestore';
+import { collection, addDoc, doc, updateDoc, arrayUnion, serverTimestamp, getDoc } from '@firebase/firestore';
 import Link from 'next/link';
 import { signOut, onAuthStateChanged } from "firebase/auth"
 import { auth } from "../firebase";
@@ -56,18 +56,17 @@ const page = () => {
 
 
     const sendToFirestore = async (orderData, user) => {
+        let currentDate = new Date()
         try {
             const userDocRef = doc(firestore, 'users', user.uid);
 
-            // Update the "orders" field in the user's document
+
             await updateDoc(userDocRef, {
                 orders: arrayUnion(
                     {
                         ...orderData,
-                        // {
+                        timestamp: currentDate.toDateString()
 
-                        //     timestamp: serverTimestamp(),
-                        // },
                     }
                 ),
             });
@@ -77,6 +76,28 @@ const page = () => {
             console.error('Error placing order:', error.message);
         }
     };
+
+
+    // const sendToFirestore = async (orderData, user) => {
+    //     try {
+    //         const userDocRef = doc(firestore, 'users', user.uid);
+
+    //         // Create a new order object with a timestamp
+    //         const orderWithTimestamp = {
+    //             ...orderData,
+    //             timestamp: Date(),
+    //         };
+
+    //         // Update the "orders" field in the user's document
+    //         await updateDoc(userDocRef, {
+    //             orders: arrayUnion(orderWithTimestamp),
+    //         });
+
+    //         console.log('Order placed successfully!');
+    //     } catch (error) {
+    //         console.error('Error placing order:', error.message);
+    //     }
+    // };
 
     return (
         <div className="bg-gray-100 h-screen">

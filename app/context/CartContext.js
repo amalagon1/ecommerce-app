@@ -6,16 +6,28 @@ const CartContext = createContext()
 
 //Create a reducer funtion to handle cart actions
 const cartReducer = (state, action) => {
+
+
+
     switch (action.type) {
 
         case 'ADD_TO_CART':
             // return { ...state, cart: [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }] };
-            const newCart = [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }];
-            let grandTotal = calculateGrandTotal(newCart);
-            return { ...state, cart: newCart, grandTotal };
+            // const newCart = [...state.cart, { ...action.payload, qty: 1, totalPrice: action.payload.product.price }];
+            // let grandTotal = calculateGrandTotal(newCart);
+            // return { ...state, cart: newCart, grandTotal };
 
-        // case 'UPDATE_CART':
-        //     return { ...state, cart: action.payload }
+            // const newItem = { ...action.payload, qty: 1, totalPrice: action.payload.product.price };
+            // const updatedCartAdd = [...state.cart, newItem];
+            // const grandTotalAdd = calculateGrandTotal(updatedCartAdd);
+
+            // return { ...state, cart: updatedCartAdd, grandTotal: grandTotalAdd };
+
+            const newItem = { ...action.payload, qty: 1, totalPrice: action.payload.product.price };
+            const updatedCartAdd = [...state.cart, newItem];
+
+            return { ...state, cart: updatedCartAdd };
+
 
         case 'REMOVE_FROM_CART':
             return {
@@ -27,6 +39,8 @@ const cartReducer = (state, action) => {
             const updatedCart = state.cart.map((item) =>
                 item.product.id === id ? { ...item, qty: item.qty + 1 } : item
             );
+
+            // const grandTotalIncrement = calculateGrandTotal(updatedCart);
             // let incrementTotal = calculateGrandTotal(updatedCart);
             return { ...state, cart: updatedCart };
 
@@ -44,13 +58,14 @@ const cartReducer = (state, action) => {
                 }
                 return item;
             });
+            // const grandTotalDecrement = calculateGrandTotal(updatedCartDecrement);
             return { ...state, cart: updatedCartDecrement.filter(Boolean) };
 
         //make this function work for grand total
-        // case 'CALCULATE_GRAND_TOTAL':
-        //     const grandTotal = calculateGrandTotal(state.cart)
+        case 'CALCULATE_GRAND_TOTAL':
+            const grandTotal = calculateGrandTotal(state.cart)
 
-        //     return { ...state, grandTotal };
+            return { ...state, grandTotal };
 
 
 
@@ -75,6 +90,10 @@ const calculateGrandTotal = (cart) => {
     }
     return sum.toFixed(2)
 }
+
+// function calculateGrandTotal(cart) {
+//     return cart.reduce((total, item) => total + item.totalPrice, 0);
+// }
 
 //Create CartProvider component
 const CartProvider = ({ children }) => {

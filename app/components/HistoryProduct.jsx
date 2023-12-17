@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HistoryProduct = ({ order, grandTotal }) => {
+const HistoryProduct = ({ order, cart, total, date }) => {
 
 
     console.log(order)
@@ -27,18 +27,17 @@ const HistoryProduct = ({ order, grandTotal }) => {
     return (
 
         <div className="border-t-2 py-3">
-            {Object.values(order).map((item) => (
+            <div>Date ordered: {date}</div>
+            {Object.values(cart).map((item) => (
                 <div >
                     <img
                         className="h-16 w-16"
                         src={item.product.image}></img>
                     <p key={item.productId}>{item.product.title}</p>
-                    <p>Total: {item.totalPrice}</p>
-
+                    {/* <p>Total: {item.totalPrice}</p> */}
                 </div>
-
             ))}
-            <p>Grand Total: {grandTotal}</p>
+            <p className="my-5">Total: ${total}</p>
         </div>
 
     )

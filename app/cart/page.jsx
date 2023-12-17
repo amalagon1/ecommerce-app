@@ -11,6 +11,7 @@ import { collection, addDoc, doc, updateDoc, arrayUnion, serverTimestamp } from 
 
 import { saveOrderToFirestore } from '../firebase';
 import { newCollection } from '../firebase';
+import { getDoc } from 'firebase/firestore';
 
 
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -46,35 +47,11 @@ const Cart = () => {
     const [email, setEmail] = useState("");
     const [order, setOrder] = useState("");
 
-    //firebase demo submit function
-
-    const placeOrder = async () => {
-        try {
-            const userDocRef = doc(firestore, 'users', user.uid);
-
-            // Update the "orders" field in the user's document
-            await updateDoc(userDocRef, {
-                orders: arrayUnion(
-                    {
-                        ...state.cart,
-                        // {
-
-                        //     timestamp: serverTimestamp(),
-                        // },
-                    }
-                ),
-            });
-
-            console.log('Order placed successfully!');
-        } catch (error) {
-            console.error('Error placing order:', error.message);
-        }
-    };
 
 
 
     const storeCart = () => {
-        let order = JSON.stringify(state.cart)
+        let order = JSON.stringify(state)
         localStorage.setItem("order", order)
     }
 
@@ -83,7 +60,7 @@ const Cart = () => {
         const stripe = await stripePromise;
         const checkoutSession = await axios.post('/api/create-stripe-session',
             {
-                items: state.cart
+                items: state.cart,
             });
 
         //redirect user/customer to Stripe checkout
@@ -102,8 +79,13 @@ const Cart = () => {
     };
 
     const handleClick = () => {
-        storeCart()
-        createCheckOutSession();
+        if (!user) {
+            window.alert('You must be signed in to do that')
+        } else {
+            storeCart()
+            createCheckOutSession();
+        }
+
 
     }
 
@@ -134,11 +116,11 @@ const Cart = () => {
                     className="cursor-pointer bg-rose-400 text-white py-2 px-6">
                     Test
                 </button> */}
-                    <button
+                    {/* <button
                         className="bg-rose-400 py-2"
                         onClick={placeOrder}>
                         test
-                    </button>
+                    </button> */}
                 </div>
 
 

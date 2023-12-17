@@ -37,26 +37,17 @@ const ProductCard = ({ product }) => {
 
     const removeFromCart = () => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: product })
+        getGrandTotal()
     }
     const addToCart = (product) => {
         dispatch({ type: 'ADD_TO_CART', payload: product })
+        getGrandTotal()
     }
-    // const addToCart = (product) => {
-    //     const updatedCart = [...cart];
-    //     const itemIndex = updatedCart.findIndex((item) => item.id === product.id);
-    //     console.log(product.id)
 
-    //     if (itemIndex !== -1) {
-    //         // Product already in the cart, update the quantity
-    //         updatedCart[itemIndex].quantity += 1;
-    //     } else {
-    //         // Product not in the cart, add a new item
-    //         updatedCart.push({ ...product, quantity: 1 });
-    //     }
+    const getGrandTotal = () => {
+        dispatch({ type: 'CALCULATE_GRAND_TOTAL' })
+    }
 
-    //     // Update the shopping cart context with the updated cart
-    //     dispatch({ type: 'UPDATE_CART', payload: updatedCart });
-    // }
 
     return (
         <div>

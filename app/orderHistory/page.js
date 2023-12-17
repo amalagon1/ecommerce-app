@@ -94,7 +94,10 @@ const page = () => {
                 {orders && orders.map((order) => (
 
                     <HistoryProduct order={order}
-                        grandTotal={calculateGrandTotal(order)} />
+                        cart={order.cart}
+                        total={order.grandTotal}
+                        date={order.timestamp}
+                    />
 
                 ))}
             </div>

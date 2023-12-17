@@ -19,15 +19,21 @@ const CartProduct = ({ product }) => {
         // Dispatch an action to increment the quantity of the item
         dispatch({ type: 'INCREMENT_QTY', payload: { id: product.product.id } });
         calculateItemPrice()
+        getGrandTotal()
     }
 
     const decrementQuantity = () => {
         dispatch({ type: 'DECREMENT_QTY', payload: { itemId: product.product.id } });
         calculateItemPrice()
+        getGrandTotal()
     }
 
     const calculateItemPrice = () => {
         dispatch({ type: 'CALCULATE_PRICE', payload: { priceId: product.product.id } })
+    }
+
+    const getGrandTotal = () => {
+        dispatch({ type: 'CALCULATE_GRAND_TOTAL' })
     }
 
     console.log(product.product.title)
