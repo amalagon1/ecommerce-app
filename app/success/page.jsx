@@ -78,27 +78,6 @@ const page = () => {
     };
 
 
-    // const sendToFirestore = async (orderData, user) => {
-    //     try {
-    //         const userDocRef = doc(firestore, 'users', user.uid);
-
-    //         // Create a new order object with a timestamp
-    //         const orderWithTimestamp = {
-    //             ...orderData,
-    //             timestamp: Date(),
-    //         };
-
-    //         // Update the "orders" field in the user's document
-    //         await updateDoc(userDocRef, {
-    //             orders: arrayUnion(orderWithTimestamp),
-    //         });
-
-    //         console.log('Order placed successfully!');
-    //     } catch (error) {
-    //         console.error('Error placing order:', error.message);
-    //     }
-    // };
-
     return (
         <div className="bg-gray-100 h-screen">
             <main className="max-w-screen-lg mx-auto my-14">

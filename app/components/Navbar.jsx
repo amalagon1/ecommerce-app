@@ -7,6 +7,7 @@ import { CartContext } from '../context/CartContext';
 import { CartProvider } from '../context/CartContext';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import Cart from '../cart/page';
+import DropdownBtn from './DropdownBtn';
 
 
 const Navbar = () => {
@@ -66,7 +67,7 @@ const Navbar = () => {
                 <button onClick={clickHandler}>
                     <Link href="/cart">
 
-                        <div className="text-xl cursor-pointer relative">
+                        <div className="text-2xl cursor-pointer relative">
                             <RiShoppingCartLine />
                             <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
                                 <p className="text-sm">{state.cart.length}</p>
@@ -87,7 +88,7 @@ const Navbar = () => {
                     <button onClick={clickHandler}>
                         <Link href="/cart">
 
-                            <div className="text-xl cursor-pointer relative">
+                            <div className="text-2xl cursor-pointer relative">
                                 <RiShoppingCartLine />
                                 <div className="absolute p-2 -right-1 -bottom-2 bg-red-600 h-3.5 w-3.5 rounded-full flex items-center justify-center">
                                     <p className="text-sm">{state.cart.length}</p>
@@ -97,9 +98,10 @@ const Navbar = () => {
 
                     </button>
 
-                    <div>
+                    {/* <div>
                         <p>welcome, {user.displayName.split('')[0]}</p>
-                    </div>
+                    </div> */}
+                    <DropdownBtn />
                     <div><button className="cursor-pointer bg-rose-400 p-1.5 rounded" onClick={handleSignOut}>Log Out</button></div>
 
                 </div>
