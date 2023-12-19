@@ -8,7 +8,7 @@ import { collection, addDoc, doc, updateDoc, arrayUnion, serverTimestamp, getDoc
 import Link from 'next/link';
 import { signOut, onAuthStateChanged } from "firebase/auth"
 import { auth } from "../firebase";
-import { get } from 'mongoose';
+
 
 
 const page = () => {
