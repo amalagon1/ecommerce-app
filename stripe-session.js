@@ -3,9 +3,12 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 export default async (req, res) => {
     const { item } = req.body;
 
+    //'http://localhost:3000'
+
+
     const redirectURL =
         process.env.NODE_ENV === 'development'
-            ? 'http://localhost:3000'
+            ? 'https://ecommerce-app-five-zeta.vercel.app/'
             : 'https://stripe-checkout-next-js-demo.vercel.app';
 
     const transformedItem = {
